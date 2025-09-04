@@ -1,0 +1,34 @@
+pipline
+{
+agent any
+stages
+{
+stage('CheckOut')
+{
+steps
+{
+git branch:'main',url:https://github.com/example-git/git.git'
+}
+}
+stage('Deploy')
+{
+steps
+{
+sh'''
+mkdir-p deployed-html
+cp*html deployed_html/
+'''
+}
+}
+post {
+success {
+publishHTML(target: [
+allowMissing:false,
+keepAll:true,
+reportDir:'deployed_html',
+reportFiles:'crf.html',
+reportName:'My Webpage'
+])
+}
+}
+}
